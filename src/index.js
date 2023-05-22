@@ -7,11 +7,12 @@ const usersRouter = require("./routers/users");
 const { handleError } = require("./utils/error");
 const auth = require("./middleware/auth.js");
 const run = require("./demo_create_mongo_db");
+require("dotenv").config();
 
-const uri =
-  "mongodb+srv://usman:Admin321@cluster0.s2iblwa.mongodb.net/exerciesTrack?retryWrites=true&w=majority";
+const { mongoUri } = process.env;
+
 mongoose
-  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to DB");
   })
