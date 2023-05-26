@@ -12,10 +12,13 @@ const usersFilePath = path.join(__dirname, "../../db/users.json");
 // Authenticate the user and return an authorization token for the user.
 // Use this function to authenticate a user who's logging in.
 const authenticate = async ({ id, email, password }) => {
-  const user = await find({ email });
+  const user = await usersSchema.find({ email });
+  console.log("usersss : ", user);
+
   // Hash the user's password and compare the result with the hash
   // saved in the database to see if the password is correct.
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  // const isPasswordValid = await bcrypt.compare(password, user.password);
+  // console.log("isPasswordValid", isPasswordValid);
 
   // Call jwt.sign(), which returns an authentication token.
   // The first argument is an object that contains the data to
@@ -25,11 +28,29 @@ const authenticate = async ({ id, email, password }) => {
   // of characters used to sign the token to ensure the token has not been tampered with
   // when it is sent back to the server later on.
   // The third argument is a configuration object for the token.
-  const token = jwt.sign({ id: user.id }, JWT_SECRET, {
+
+  // return { token };
+
+  // If user not found or password doesn't match, return error response
+  const isPasswordValid = await bcrypt.compare(password, user[0].password);
+  // if (!user || !(await bcrypt.compare(password, user[0].password))) {
+  //   return res.status(401).json({ error: "Invalid email or password" });
+  // }
+  console.log("isPasswordValid", isPasswordValid);
+  const token = jwt.sign({ id: user[0].id }, JWT_SECRET, {
     expiresIn: 24 * 60 * 60, // Expire tokens after a certain amount of time so users can't stay logged in forever
   });
+  if (isPasswordValid != true) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
 
-  return { token };
+  // Generate a JWT token
+  // const token = jwt.sign({ id: user[0].id }, JWT_SECRET, {
+  //   expiresIn: 24 * 60 * 60,
+  // });
+  console.log("tokrn", token);
+  // Return the token
+  return token;
 };
 
 // Save the new user to the database and return an authorization token for the user

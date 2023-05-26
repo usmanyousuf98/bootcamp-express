@@ -31,7 +31,8 @@ const handleLogin = async (req, res, next) => {
     }
 
     // Create a token for the user, if successfully authenticated
-    const { token } = await authenticate({ email, password });
+    const token = await authenticate({ email, password });
+
     res.json({ token });
   } catch (error) {
     next(error);

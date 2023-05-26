@@ -19,8 +19,6 @@ const strategy = new Strategy(
     secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
-    console.log("jwtPayload");
-    console.log(jwtPayload);
     try {
       // jwtPayload contains the decoded JWT payload,
       // which includes the user's id
