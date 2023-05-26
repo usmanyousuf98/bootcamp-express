@@ -16,17 +16,15 @@ const get = async (id) => {
 
 const save = async (recipe) => {
   const recipes = await getAll();
-  console.log("newRecipenewRecipe", recipes.length);
 
   recipe.id = recipes.length + 1; // Not a robust incrementor mechanism; don't use in production!
   recipes.push(recipe);
 
   const newRecipe = new activitySchema({
-    id: recipe.id,
     name: recipe.name,
     description: recipe.description,
-
-    duration: Date.now(),
+    activityType: recipe.activityType,
+    duration: recipe.duration,
     date: Date(),
   });
   await newRecipe.save(); // fs.writeFile(recipesFilePath, JSON.stringify(recipes));
@@ -35,29 +33,21 @@ const save = async (recipe) => {
 };
 
 const update = async (updated) => {
-  // const recipes = await getAll();
+  console.log("updated", updated);
+  console.log("updated,id", updated.id);
 
-  //updated.id = parseInt(id);
-
-  //   const updatedRecipes = recipes.map((recipe) => {
-  //     return recipe.id === parseInt(id) ? updated : recipe;
-
-  //   });
-  const filter = { id: updated.id };
+  const filter = { _id: updated.id };
   await activitySchema.findOneAndUpdate(filter, updated); //fs.writeFile(recipesFilePath, JSON.stringify(updatedRecipes));
 
   return updated;
 };
 
 const remove = async (id) => {
-  // const recipes = await getAll();
-  // const newRecipes = recipes
-  //   .map((recipe) => {
-  //     return recipe.id === parseInt(id) ? null : recipe;
-  //   })
-  //   .filter((recipe) => recipe !== null);
-
-  await usersSchema.deleteOne({ id }); //fs.writeFile(recipesFilePath, JSON.stringify(newRecipes));
+  try {
+    await activitySchema.findByIdAndRemove(id); //fs.writeFile(recipesFilePath, JSON.stringify(newRecipes));
+  } catch (error) {
+    console.log("api errpr", error);
+  }
 };
 
 module.exports = {

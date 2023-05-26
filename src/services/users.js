@@ -36,7 +36,7 @@ const authenticate = async ({ id, email, password }) => {
 const create = async ({ email, name, password }) => {
   //const users = JSON.parse(await fs.readFile(usersFilePath));
   console.log(email, name, password);
-
+  const users = await getAll();
   const newUser = new usersSchema({
     id: users.length + 1, // Not a robust database incrementor; don't use in production
     email,
@@ -66,14 +66,22 @@ const create = async ({ email, name, password }) => {
 
   return { token };
 };
-
-const find = async ({ id, email }) => {
-  const users = JSON.parse(await fs.readFile(usersFilePath));
-  return users.find((user) => user.id === parseInt(id) || user.email === email);
+const findByID = async ({ id }) => {
+  // const users = JSON.parse(await fs.readFile(usersFilePath));
+  return usersSchema.findOne({ id });
+  // users.find((user) => user.id === parseInt(id) || user.email === email);
 };
 
+const find = async ({ id, email }) => {
+  // const users = JSON.parse(await fs.readFile(usersFilePath));
+  return usersSchema.findOne({ email });
+  // users.find((user) => user.id === parseInt(id) || user.email === email);
+};
+const getAll = async () => usersSchema.find();
 module.exports = {
   authenticate,
   create,
   find,
+  getAll,
+  findByID,
 };

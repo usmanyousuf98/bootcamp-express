@@ -2,7 +2,8 @@ const activitySchema = require("../../db/schemas/activitySchema");
 const service = require("../services/recipes");
 
 const recipeExists = async (req, res, next) => {
-  const recipe = await service.get(req.params.id);
+  const { id } = req.body;
+  const recipe = await service.get(id);
 
   if (recipe === undefined) {
     const err = new Error("Recipe not found");
@@ -37,7 +38,7 @@ const save = async (req, res, next) => {
     const newRecipe = {
       name,
       description,
-      activityType: [...activityType],
+      activityType,
       duration,
       date,
     };
@@ -56,7 +57,7 @@ const update = async (req, res, next) => {
       id,
       name,
       description,
-      activityType: [...activityType],
+      activityType,
       duration,
       date,
     });
@@ -69,7 +70,9 @@ const update = async (req, res, next) => {
 
 const remove = async (req, res, next) => {
   try {
-    await service.remove(req.params.id);
+    const { id } = req.body;
+    console.log("api id", req.body);
+    await service.remove(id);
     res.sendStatus(204);
   } catch (error) {
     next(error);
@@ -81,5 +84,5 @@ module.exports = {
   get: [recipeExists, get],
   save,
   update: [update],
-  remove: [recipeExists, remove],
+  remove: [remove],
 };

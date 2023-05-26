@@ -21,12 +21,13 @@ const handleSignup = async (req, res, next) => {
 };
 
 const handleLogin = async (req, res, next) => {
+  console.log("reqq ", req.body);
   try {
     const { email, password } = req.body;
     const user = await find({ email });
 
     if (!user) {
-      throw new Error("Unable to login 11");
+      throw new Error("Unable to login");
     }
 
     // Create a token for the user, if successfully authenticated

@@ -3,7 +3,7 @@ require("dotenv").config(); // loads the environment variables into process.env
 const passport = require("passport");
 const { Strategy, ExtractJwt } = require("passport-jwt");
 
-const { find: findUser } = require("../services/users");
+const { find: findUser, findByID } = require("../services/users");
 console.log("auth");
 const { JWT_SECRET } = process.env;
 
@@ -19,12 +19,14 @@ const strategy = new Strategy(
     secretOrKey: JWT_SECRET,
   },
   async (jwtPayload, done) => {
+    console.log("jwtPayload");
+    console.log(jwtPayload);
     try {
       // jwtPayload contains the decoded JWT payload,
       // which includes the user's id
       // Find that user in the database
-      const user = await findUser({ id: jwtPayload.id });
-
+      const user = await findByID({ id: jwtPayload.id });
+      console.log();
       if (!user) {
         const err = new Error("User not found");
         err.statusCode = 404;

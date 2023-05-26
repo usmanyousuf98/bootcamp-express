@@ -26,6 +26,7 @@ const app = express();
 app.use(cors());
 
 app.use((req, res, next) => {
+  console.log("Okay ", req.headers.authorization);
   const { method, path } = req;
   console.log(
     `New request to: ${method} ${path} at ${new Date().toISOString()}`

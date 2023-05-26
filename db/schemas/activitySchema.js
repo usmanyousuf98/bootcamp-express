@@ -3,21 +3,11 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const activity = new Schema({
-  id: Number,
-  name: String,
-  description: String,
-  activityType: [
-    {
-      running: Boolean,
-      swimming: Boolean,
-      walking: Boolean,
-      cycling: Boolean,
-      hiking: Boolean,
-    },
-  ],
-
-  duration: Date,
-  date: Date,
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  activityType: { type: String, required: true },
+  duration: { type: Number, required: true },
+  date: { type: Date, required: true },
 });
 const activitySchema = model("activity", activity);
 

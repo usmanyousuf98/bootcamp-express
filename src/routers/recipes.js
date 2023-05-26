@@ -8,20 +8,18 @@ router
   .route("/")
   // .get(auth.authenticate(), getAll)
   .post(save);
-router.route("/").get(getAll);
+router.route("/").get(auth.authenticate(), getAll);
 
 router
-  .route("/:id")
-  .get(get)
+  .route("/delete")
+  // .get(get)
   // .put(auth.authenticate(), update)
   .delete(auth.authenticate(), remove);
 
-router
-  .route("/create")
-  .post(save)
-  // .get(get)
-  //.put(auth.authenticate(), update)
-  .delete(remove);
+router.route("/create").post(auth.authenticate(), save);
+// .get(get)
+//.put(auth.authenticate(), update)
+//.delete(remove);
 
-router.route("/update").put(update);
+router.route("/update").put(auth.authenticate(), update);
 module.exports = router;
