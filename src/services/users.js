@@ -5,6 +5,8 @@ const fs = require("fs").promises;
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const usersSchema = require("../../db/schema.js");
+const { response } = require("express");
+const { error } = require("console");
 
 const { JWT_SECRET } = process.env;
 const usersFilePath = path.join(__dirname, "../../db/users.json");
@@ -41,7 +43,9 @@ const authenticate = async ({ id, email, password }) => {
     expiresIn: 24 * 60 * 60, // Expire tokens after a certain amount of time so users can't stay logged in forever
   });
   if (isPasswordValid != true) {
-    return res.status(401).json({ error: "Invalid email or password" });
+    return response.status(401);
+    // response.json({ error: ["Invalid email or password"] })
+    //.js({ error: ["Invalid email or password"] }); //.json({ error: "Invalid email or password" });
   }
 
   // Generate a JWT token

@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const activity = new Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
+  name: { type: String, required: true, min: 5, max: 50 },
+  description: { type: String, required: true, min: 10, max: 550 },
   activityType: { type: String, required: true },
   duration: { type: Number, required: true },
   date: { type: Date, required: true },

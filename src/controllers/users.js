@@ -6,6 +6,7 @@ const handleSignup = async (req, res, next) => {
     const user = await find({ email });
 
     if (user) {
+      // return res.status(401).json({ error: "Email already exists!" });
       throw new Error("Email already exists!");
     }
     // Create a token for the user
@@ -21,7 +22,7 @@ const handleSignup = async (req, res, next) => {
 };
 
 const handleLogin = async (req, res, next) => {
-  console.log("reqq ", req.body);
+  console.log("req ", req.body);
   try {
     const { email, password } = req.body;
     const user = await find({ email });
@@ -32,6 +33,7 @@ const handleLogin = async (req, res, next) => {
 
     // Create a token for the user, if successfully authenticated
     const token = await authenticate({ email, password });
+    console.log("tokennnnnnn : ", token);
 
     res.json({ token });
   } catch (error) {

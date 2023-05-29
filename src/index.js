@@ -40,10 +40,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(auth.initialize());
 
 app.get("/", (req, res) => {
-  res.redirect("/api/v1/recipes");
+  res.redirect("/api/v1/activity");
 });
 
-app.use("/api/v1/recipes", recipesRouter);
+app.use("/api/v1/activity", recipesRouter);
 app.use("/api/v1/users", usersRouter);
 
 app.use(handleError);

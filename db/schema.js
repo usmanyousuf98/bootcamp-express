@@ -2,28 +2,12 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const users = new Schema({
-  id: Number,
-  name: String,
-  email: String,
-  password: String,
+  id: { type: Number, required: true },
+  name: { type: String, required: true, min: 5, max: 50 },
+  email: { type: String, required: true, min: 5, max: 50 },
+  password: { type: String, required: true, min: 8, max: 32 },
 });
 
 const usersSchema = model("users", users);
 
-// const activity = new Schema({
-//   name: String,
-//   description: String,
-//   activityType: [
-//     {
-//       running: Boolean,
-//       walking: Boolean,
-//       hikin: Boolean,
-//       swimming: Boolean,
-//       cycling: Boolean,
-//     },
-//   ],
-//   duration: String,
-//   date: Date,
-// });
-// const activitySchema = model("activity", activity);
 module.exports = usersSchema;
